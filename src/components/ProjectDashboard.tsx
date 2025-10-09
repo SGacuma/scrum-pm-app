@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { ArrowLeft, TrendingUp, Target, Calendar, ListTodo } from 'lucide-react';
+import { ArrowLeft, TrendingUp, Target, Calendar, ListTodo, Kanban, LayoutGrid } from 'lucide-react';
 import { ProductBacklog } from './ProductBacklog';
 import { SprintBoard } from './SprintBoard';
 import { VelocityChart } from './VelocityChart';
+import { SprintMappingBoard } from './SprintMappingBoard';
+import { PBIStatusBoard } from './PBIStatusBoard';
 
-type View = 'backlog' | 'sprint' | 'velocity';
+type View = 'backlog' | 'sprint' | 'velocity' | 'mapping' | 'status';
 
 export function ProjectDashboard() {
   const { getCurrentProject, getProjectSprints, setCurrentProject } = useApp();
@@ -66,10 +68,10 @@ export function ProjectDashboard() {
             </div>
           )}
 
-          <nav className="flex gap-2">
+          <nav className="flex gap-2 overflow-x-auto">
             <button
               onClick={() => setActiveView('backlog')}
-              className={`px-6 py-3 font-medium transition-all rounded-t-lg ${
+              className={`px-6 py-3 font-medium transition-all rounded-t-lg whitespace-nowrap ${
                 activeView === 'backlog'
                   ? 'bg-white text-emerald-700 border-b-2 border-emerald-600'
                   : 'text-slate-600 hover:text-slate-900'
@@ -81,8 +83,34 @@ export function ProjectDashboard() {
               </div>
             </button>
             <button
+              onClick={() => setActiveView('mapping')}
+              className={`px-6 py-3 font-medium transition-all rounded-t-lg whitespace-nowrap ${
+                activeView === 'mapping'
+                  ? 'bg-white text-emerald-700 border-b-2 border-emerald-600'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <LayoutGrid size={18} />
+                Sprint Mapping
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveView('status')}
+              className={`px-6 py-3 font-medium transition-all rounded-t-lg whitespace-nowrap ${
+                activeView === 'status'
+                  ? 'bg-white text-emerald-700 border-b-2 border-emerald-600'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Kanban size={18} />
+                Status Board
+              </div>
+            </button>
+            <button
               onClick={() => setActiveView('sprint')}
-              className={`px-6 py-3 font-medium transition-all rounded-t-lg ${
+              className={`px-6 py-3 font-medium transition-all rounded-t-lg whitespace-nowrap ${
                 activeView === 'sprint'
                   ? 'bg-white text-emerald-700 border-b-2 border-emerald-600'
                   : 'text-slate-600 hover:text-slate-900'
@@ -95,7 +123,7 @@ export function ProjectDashboard() {
             </button>
             <button
               onClick={() => setActiveView('velocity')}
-              className={`px-6 py-3 font-medium transition-all rounded-t-lg ${
+              className={`px-6 py-3 font-medium transition-all rounded-t-lg whitespace-nowrap ${
                 activeView === 'velocity'
                   ? 'bg-white text-emerald-700 border-b-2 border-emerald-600'
                   : 'text-slate-600 hover:text-slate-900'
@@ -112,6 +140,8 @@ export function ProjectDashboard() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {activeView === 'backlog' && <ProductBacklog project={project} />}
+        {activeView === 'mapping' && <SprintMappingBoard project={project} />}
+        {activeView === 'status' && <PBIStatusBoard project={project} />}
         {activeView === 'sprint' && <SprintBoard project={project} />}
         {activeView === 'velocity' && <VelocityChart project={project} />}
       </div>

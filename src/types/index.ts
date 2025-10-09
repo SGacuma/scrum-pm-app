@@ -1,6 +1,7 @@
 export type RefinementStatus = 'vague' | 'ready';
 export type SprintStatus = 'active' | 'closed';
 export type TaskStatus = 'to_do' | 'in_progress' | 'testing' | 'done';
+export type PBIStatus = 'to_do' | 'in_progress' | 'done';
 
 export interface Project {
   id: string;
@@ -19,6 +20,7 @@ export interface PBI {
   priorityIndex: number;
   refinementStatus: RefinementStatus;
   sprintId?: string;
+  status?: PBIStatus;
 }
 
 export interface Sprint {
