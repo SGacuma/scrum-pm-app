@@ -1,13 +1,13 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Plus, TrendingUp } from 'lucide-react';
+import { Plus, TrendingUp, LogOut } from 'lucide-react';
 
 interface ProjectListProps {
   onNewProject: () => void;
 }
 
 export function ProjectList({ onNewProject }: ProjectListProps) {
-  const { state, setCurrentProject } = useApp();
+  const { state, setCurrentProject, signOut } = useApp();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -16,14 +16,26 @@ export function ProjectList({ onNewProject }: ProjectListProps) {
           <div>
             <h1 className="text-4xl font-bold text-slate-900 mb-2">SimpleScrum</h1>
             <p className="text-slate-600">Your intuitive project management platform</p>
+            {state.user && (
+              <p className="text-sm text-slate-500 mt-1">{state.user.email}</p>
+            )}
           </div>
-          <button
-            onClick={onNewProject}
-            className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium shadow-lg hover:shadow-xl"
-          >
-            <Plus size={20} />
-            New Project
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={signOut}
+              className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              <LogOut size={18} />
+              Sign Out
+            </button>
+            <button
+              onClick={onNewProject}
+              className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium shadow-lg hover:shadow-xl"
+            >
+              <Plus size={20} />
+              New Project
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
